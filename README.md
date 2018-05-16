@@ -12,10 +12,10 @@
 需要设置process.env.NODE_ENV
 
 2. 直接引入[js文件](https://github.com/hudk114/mock/blob/master/dist/proxyMock.js)，支持AMD，CMD或直接使用
-需要设置window.process.env.NODE_ENV
+此种方式无法防止uri在线上不访问mock的问题，需要手动关闭
 
 # Example
-    见 [exmaple](https://github.com/hudk114/mock/tree/master/example)， clone后 `npm install && npm run example`
+[exmaple](https://github.com/hudk114/mock/tree/master/example)，clone后 `npm install && npm run example`
 
 # api
 proxyMock为一个单例，内部维护一份options，作为全局请求的转发中间层。一个拼装后的uri由两部分组成：`{append}{uri}`。

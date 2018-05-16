@@ -14,11 +14,8 @@
       <b>import</b>
       <pre>
         <code>
-          // script
-          window.process.env.NODE_ENV = 'development';
-
-          // import script here!
-
+          // 这种情况下都会走mock，需要手动修改
+          // 只有通过webpack等将process.env.NODE_ENV修改了才能防止线上不使用mock
           var setOptions = window.proxyMock.proxyMock.setOptions;
           var proxy = window.proxyMock.proxyMock.proxy;
 

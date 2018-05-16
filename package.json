@@ -1,6 +1,6 @@
 {
   "name": "@hudk/mock",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "several ways for mock",
   "main": "dist/proxyMock.min.js",
   "scripts": {

@@ -51,13 +51,12 @@ class ProxyMock {
       throw new ReferenceError('request must has url property!');
     }
 
-    req.url =
-      (mock &&
-      this.process &&
-      this.process.env &&
-      this.process.env.NODE_ENV === 'development'
-        ? mockAppend
-        : domain) + req.url;
+    if (!process) {
+      req.url = (mock ? mockAppend : domain) + req.url;
+    } else {
+      req.url = (mock && process.env.NODE_ENV === 'development' ? mockAppend : domain) + req.url;
+    }
+
     return req;
   }
 
