@@ -60,6 +60,6 @@ const OPTIONS = {
 
     通过proxy发起请求，自动选择加上或不加上mock
 
-    * 参数： request: { url: String, methods: String, 其余见axios文档 }， options: { mock: Boolean, mockAppend: String, append: String }
-    * 返回值： 若采用默认的request方法，返回一个promise；否则返回用户定义的request方法
-    * 使用： 发送请求，对每个请求，优先采用自身的options，mock指请求是否默认采用mock，mockAppend指定默认的mock前缀，append指定默认的非mock请求前缀
+    * 参数： request: { url: String, methods: String, 其余见axios文档 }, options: { mock: Boolean, mockAppend: String, domain: String }, fn: Functions
+    * 返回值： 若采用默认的request方法，返回一个promise；否则返回用户定义的request方法；若定义了fn，则返回值为undefined
+    * 使用： 发送请求，对每个请求，优先采用自身的options，mock指请求是否默认采用mock，mockAppend指定默认的mock前缀，append指定默认的非mock请求前缀。若指定了fn，不会使用默认的request发送请求，而会将req作为fn的参数回调用

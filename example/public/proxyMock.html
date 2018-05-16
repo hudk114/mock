@@ -42,7 +42,7 @@
             method: 'GET',
           }, {
             mock: false,
-            append: ''
+            domain: ''
           });
 
           // /mock/user POST
@@ -63,6 +63,8 @@
           }, {
             mock: true,
             mockAppend: '/m'
+          }, function (req) {
+            console.log(req);
           });
         </code>
         <button class="button">open your console and click</button>

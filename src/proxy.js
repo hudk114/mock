@@ -44,7 +44,7 @@ class ProxyMock {
     {
       mock = this.options.MOCK,
       mockAppend = this.options.MOCK_APPEND,
-      append = this.options.DOMAIN
+      domain = this.options.DOMAIN
     } = {}
   ) {
     if (!req.url) {
@@ -57,14 +57,14 @@ class ProxyMock {
       this.process.env &&
       this.process.env.NODE_ENV === 'development'
         ? mockAppend
-        : append) + req.url;
+        : domain) + req.url;
     return req;
   }
 
   /**
    * 发起请求，默认采用axios
    * @param {Object} req 默认采用axios发起请求
-   * @param {Function} fn 回掉方法
+   * @param {Function} fn 回调方法
    */
   request (req, fn) {
     fn && typeof fn === 'function' ? fn(req) : this.options.request(req);
@@ -73,29 +73,17 @@ class ProxyMock {
 
 let proxyM = new ProxyMock();
 
-// function judge() {
-//   if (!proxyM) {
-//     throw new Error("must init mock proxy first!");
-//   }
-// }
-
 export default {
-  // 单例
-  // getProxy(options) {
-  //   return proxyM ? proxyM : new ProxyMock(options);
-  // },
   setOptions (options) {
-    // judge();
     proxyM.setOptions(options);
   },
   /**
    * 代理请求的接口
    * @param {Object} req 请求体 必须包含url；如果采用默认的请求方法，必须包含methods
    * @param {Object} options 可选，包含是否需要mock，append等
-   * @param {*} fn
+   * @param {Function} fn 回调
    */
   proxy (req, options, fn) {
-    // judge();
     return proxyM.request(proxyM.combineRequest(req, options), fn);
   }
 };
