@@ -1,11 +1,11 @@
 {
-  "name": "mock",
-  "version": "0.1.0",
+  "name": "@hudk/mock",
+  "version": "0.1.1",
   "description": "several ways for mock",
-  "main": "dist/proxy.js",
+  "main": "dist/proxyMock.min.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
-    "example": "npm run build && node example/app.js",
+    "example": "rollup -c && node example/app.js",
     "prettier": "prettier --write ./src/**/*.js ./test/**/*.js",
     "linter": "eslint ./src/**/*.js ./test/**/*.js",
     "format": "prettier-eslint --write ./src/**/*.js ./test/**/*.js"
@@ -46,7 +46,8 @@
     "prettier-eslint": "^8.8.1",
     "prettier-eslint-cli": "^4.7.1",
     "rollup": "^0.59.0",
-    "rollup-plugin-babel": "^3.0.4"
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-uglify": "^3.0.0"
   },
   "precommit": [
     "format",

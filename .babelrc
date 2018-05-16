@@ -1,5 +1,13 @@
 {
   "env": {
+    "development": {
+      "presets": [
+        ["env", {
+          "modules": false
+        }], "stage-0"
+      ],
+      "plugins": ["external-helpers"]
+    },
     "production": {
       "presets": [
         ["env", {

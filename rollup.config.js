@@ -1,6 +1,7 @@
 import babel from 'rollup-plugin-babel';
+import uglify from 'rollup-plugin-uglify';
 
-export default {
+const options = {
   input: 'src/index.js',
   output: {
     file: 'dist/proxyMock.js',
@@ -13,3 +14,10 @@ export default {
     })
   ]
 };
+
+if (process.env.NODE_ENV === 'production') {
+  options.output.file = 'dist/proxyMock.min.js';
+  options.plugins.push(uglify());
+}
+
+export default options;

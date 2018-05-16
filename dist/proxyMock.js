@@ -50,7 +50,7 @@
    */
 
   var OPTIONS = {
-    // 默认开启mock
+    // 默认不开启mock
     MOCK: false,
     // mock前缀url
     MOCK_APPEND: '/mock',
