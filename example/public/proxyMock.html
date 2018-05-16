@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>proxyMock</title>
+</head>
+<body>
+  <header>proxyMock</header>
+
+  <ol>
+    <li>
+      <b>import</b>
+      <pre>
+        <code>
+          // script
+          window.process.env.NODE_ENV = 'development';
+
+          // import script here!
+
+          var setOptions = window.proxyMock.proxyMock.setOptions;
+          var proxy = window.proxyMock.proxyMock.proxy;
+
+          
+          // cjs
+          const { setOptions, proxy } = require('@hudk/proxyMock');
+
+          
+          // es6
+          import { setOptions, proxy } from '@hudk/proxyMock';
+        </code>
+      </pre>
+    </li>
+    <li>
+      <b>use common options</b>
+      <pre>
+        <code>
+          // /user GET
+          proxy({
+            url: '/user',
+            method: 'GET',
+          }, {
+            mock: false,
+            append: ''
+          });
+
+          // /mock/user POST
+          proxy({
+            url: '/user',
+            method: 'POST',
+            data: {
+              user: 'hudk'
+            }
+          }, {
+            mock: true
+          });
+
+          // /m/user GET
+          proxy({
+            url: '/user',
+            method: 'GET'
+          }, {
+            mock: true,
+            mockAppend: '/m'
+          });
+        </code>
+        <button class="button">open your console and click</button>
+      </pre>
+    </li>
+    <li>
+      <b>set default options</b>
+      <pre>
+        <code>
+          setOptions({
+            MOCK: true,
+            MOCK_APPEND: '/m',
+            request: function (req) {
+              console.log(req)
+            }
+          });
+
+          proxy({
+            url: '/user',
+            method: 'GET',
+            data: {
+              id: '234523rwerw'
+            }
+          });
+        </code>
+        <button class="button">open your console and click</button>      
+      </pre>
+    </li>
+  </ol>
+
+  <script>
+    window.process = {
+      env: {
+        NODE_ENV: 'development'
+      }
+    };
+  </script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/js/proxyMock.js"></script>
+  <script src="/js/code2scirpt.js"></script>
+  <script>
+    var setOptions = window.proxyMock.proxyMock.setOptions;
+    var proxy = window.proxyMock.proxyMock.proxy;
+
+    document.body.addEventListener('click', function (event) {
+      var ele = event.target;
+      if (!(ele.attributes.class && ele.attributes.class.textContent.indexOf('button') > -1)) {
+        return;
+      }
+
+      code2script(ele.parentElement.getElementsByTagName('code')[0].textContent);
+    });
+  </script>
+</body>
+</html>

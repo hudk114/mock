@@ -3,17 +3,18 @@
  * 如果process.env.NODE_ENV不是development不会开启mock
  */
 // TODO 请求的时候如果process.env.NODE_ENV是product的话不用mock
+import axios from 'axios';
 
 const OPTIONS = {
   // 默认开启mock
   MOCK: false,
   // mock前缀url
-  MOCK_APPEND: "",
+  MOCK_APPEND: '/mock',
   // 非mock前缀url
-  DOMAIN: "",
-  request(req) {
+  DOMAIN: '',
+  request (req) {
     if (!req.method || !req.url) {
-      throw new Error("you start a wrong request!");
+      throw new Error('you start a wrong request!');
     }
 
     return new Promise((resolve, reject) => {
@@ -28,18 +29,17 @@ const OPTIONS = {
   }
 };
 
-let proxyM = new ProxyMock();
-
 class ProxyMock {
-  constructor(options) {
+  constructor (options) {
     this.options = Object.assign({}, OPTIONS, options);
+    this.process = process || window.process;
   }
 
-  setOptions(options) {
+  setOptions (options) {
     Object.assign(this.options, options);
   }
 
-  combineRequest(
+  combineRequest (
     req,
     {
       mock = this.options.MOCK,
@@ -48,13 +48,17 @@ class ProxyMock {
     } = {}
   ) {
     if (!req.url) {
-      throw new ReferenceError("request must has url property!");
+      throw new ReferenceError('request must has url property!');
     }
 
-    request.url =
-      (mock && process.env.NODE_ENV === "development" ? mockAppend : append) +
-      request.url;
-    return request;
+    req.url =
+      (mock &&
+      this.process &&
+      this.process.env &&
+      this.process.env.NODE_ENV === 'development'
+        ? mockAppend
+        : append) + req.url;
+    return req;
   }
 
   /**
@@ -62,10 +66,12 @@ class ProxyMock {
    * @param {Object} req 默认采用axios发起请求
    * @param {Function} fn 回掉方法
    */
-  request(req, fn) {
-    fn && typeof fn === "function" ? fn(req) : this.options.request(req);
+  request (req, fn) {
+    fn && typeof fn === 'function' ? fn(req) : this.options.request(req);
   }
 }
+
+let proxyM = new ProxyMock();
 
 // function judge() {
 //   if (!proxyM) {
@@ -78,7 +84,7 @@ export default {
   // getProxy(options) {
   //   return proxyM ? proxyM : new ProxyMock(options);
   // },
-  setOptions(options) {
+  setOptions (options) {
     // judge();
     proxyM.setOptions(options);
   },
@@ -88,7 +94,7 @@ export default {
    * @param {Object} options 可选，包含是否需要mock，append等
    * @param {*} fn
    */
-  proxy(req, options, fn) {
+  proxy (req, options, fn) {
     // judge();
     return proxyM.request(proxyM.combineRequest(req, options), fn);
   }

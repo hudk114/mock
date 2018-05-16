@@ -4,7 +4,11 @@
   "description": "several ways for mock",
   "main": "dist/proxy.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "example": "npm run build && node example/app.js",
+    "prettier": "prettier --write ./src/**/*.js ./test/**/*.js",
+    "linter": "eslint ./src/**/*.js ./test/**/*.js",
+    "format": "prettier-eslint --write ./src/**/*.js ./test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -21,15 +25,31 @@
   },
   "homepage": "https://github.com/hudk114/mock#readme",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "opn": "^5.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-latest": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.1.5",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "express": "^4.16.3",
+    "precommit": "^1.2.2",
+    "prettier": "^1.12.1",
+    "prettier-eslint": "^8.8.1",
+    "prettier-eslint-cli": "^4.7.1",
     "rollup": "^0.59.0",
     "rollup-plugin-babel": "^3.0.4"
-  }
+  },
+  "precommit": [
+    "format",
+    "linter"
+  ]
 }

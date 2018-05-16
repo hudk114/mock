@@ -1,8 +1,10 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.proxyMock = {})));
-}(this, (function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('axios')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'axios'], factory) :
+  (factory((global.proxyMock = {}),global.axios));
+}(this, (function (exports,axios) { 'use strict';
+
+  axios = axios && axios.hasOwnProperty('default') ? axios['default'] : axios;
 
   var classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -46,18 +48,17 @@
    * 请求包装类
    * 如果process.env.NODE_ENV不是development不会开启mock
    */
-  // TODO 请求的时候如果process.env.NODE_ENV是product的话不用mock
 
   var OPTIONS = {
     // 默认开启mock
     MOCK: false,
     // mock前缀url
-    MOCK_APPEND: "",
+    MOCK_APPEND: '/mock',
     // 非mock前缀url
-    DOMAIN: "",
+    DOMAIN: '',
     request: function request(req) {
       if (!req.method || !req.url) {
-        throw new Error("you start a wrong request!");
+        throw new Error('you start a wrong request!');
       }
 
       return new Promise(function (resolve, reject) {
@@ -68,22 +69,21 @@
     }
   };
 
-  var proxyM = new ProxyMock();
-
   var ProxyMock = function () {
     function ProxyMock(options) {
       classCallCheck(this, ProxyMock);
 
       this.options = Object.assign({}, OPTIONS, options);
+      this.process = process || window.process;
     }
 
     createClass(ProxyMock, [{
-      key: "setOptions",
+      key: 'setOptions',
       value: function setOptions(options) {
         Object.assign(this.options, options);
       }
     }, {
-      key: "combineRequest",
+      key: 'combineRequest',
       value: function combineRequest(req) {
         var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
             _ref$mock = _ref.mock,
@@ -94,11 +94,11 @@
             append = _ref$append === undefined ? this.options.DOMAIN : _ref$append;
 
         if (!req.url) {
-          throw new ReferenceError("request must has url property!");
+          throw new ReferenceError('request must has url property!');
         }
 
-        request.url = (mock && process.env.NODE_ENV === "development" ? mockAppend : append) + request.url;
-        return request;
+        req.url = (mock && this.process && this.process.env && this.process.env.NODE_ENV === 'development' ? mockAppend : append) + req.url;
+        return req;
       }
 
       /**
@@ -108,13 +108,15 @@
        */
 
     }, {
-      key: "request",
+      key: 'request',
       value: function request(req, fn) {
-        fn && typeof fn === "function" ? fn(req) : this.options.request(req);
+        fn && typeof fn === 'function' ? fn(req) : this.options.request(req);
       }
     }]);
     return ProxyMock;
   }();
+
+  var proxyM = new ProxyMock();
 
   // function judge() {
   //   if (!proxyM) {
