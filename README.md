@@ -1,5 +1,5 @@
 # mock
-一套前端mock的解决方案，详情见 [mock方案总结](https://github.com/hudk114/front-end/blob/master/config/mock.md)
+一套前端mock的解决方案，详情见 [mock方案总结](https://github.com/hudk114/front-end/blob/master/config/mock.md)，与 [mock服务器](https://github.com/hudk114/front-end/blob/master/config/mock-server) 搭配使用风味更佳哦
 
 # 出发点
 在前端代码中可以方便的控制mock
